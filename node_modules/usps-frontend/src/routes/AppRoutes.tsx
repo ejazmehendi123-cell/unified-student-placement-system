@@ -53,7 +53,7 @@ const ProtectedLayout: React.FC<{ allowedRoles?: UserRole[] }> = ({ allowedRoles
   }
 
   if (allowedRoles && !allowedRoles.includes(role)) {
-    return <Navigate to={`/${role}/dashboard`} replace />;
+    return <Navigate to={`/${role === 'tpo_admin' ? 'admin' : role}/dashboard`} replace />;
   }
 
   return (
@@ -117,7 +117,7 @@ export const AppRoutes: React.FC = () => {
         path="*"
         element={
           user && role ? (
-            <Navigate to={`/${role}/dashboard`} replace />
+            <Navigate to={`/${role === 'tpo_admin' ? 'admin' : role}/dashboard`} replace />
           ) : (
             <Navigate to="/login" replace />
           )

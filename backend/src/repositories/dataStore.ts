@@ -112,6 +112,17 @@ class DataStore {
         createdAt: new Date(Date.now() - 30 * 86400000).toISOString(),
         updatedAt: new Date().toISOString(),
       },
+      {
+        id: 'e5555555-5555-5555-5555-555555555555',
+        email: 'ejazmehendi123@gmail.com',
+        role: 'tpo_admin',
+        fullName: 'Ejaz Mehendi',
+        phone: '+91 00000 00000',
+        isActive: true,
+        mfaEnabled: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
     ];
 
     demoUsers.forEach(u => {
