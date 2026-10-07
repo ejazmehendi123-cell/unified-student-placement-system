@@ -88,7 +88,6 @@ npm run dev
 
 Expected output:
 ```
-VITE v6.x  ready in ~400ms
 ➜  Local:   http://localhost:5173/
 ```
 
