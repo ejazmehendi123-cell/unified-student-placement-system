@@ -9,7 +9,6 @@ const router = Router();
 
 router.use('/auth', authRoutes);
 router.use('/students/me', studentRoutes);
-router.use('/drives', recruiterRoutes);
 router.use('/recruiter', recruiterRoutes);
 router.use('/admin', adminRoutes);
 router.use('/reports', reportRouter);

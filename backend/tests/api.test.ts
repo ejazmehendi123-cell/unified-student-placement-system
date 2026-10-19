@@ -164,4 +164,86 @@ describe('USPS API & Security Suite', () => {
       expect(res.body.data.some((d: any) => d.branch === 'CSE')).toBe(true);
     });
   });
+
+  describe('6. Security & Magic-Byte Validation', () => {
+    it('should reject resume upload when no file is attached', async () => {
+      const res = await request(app)
+        .post('/api/students/me/resume')
+        .set('Authorization', `Bearer ${studentToken}`);
+      expect(res.status).toBe(400);
+      expect(res.body.success).toBe(false);
+      expect(res.body.error.code).toBe('BAD_REQUEST');
+    });
+
+    it('should reject resume upload with spoofed non-PDF content (magic byte check)', async () => {
+      const fakePdfBuffer = Buffer.from('NOT_A_REAL_PDF_FILE_CONTENT');
+      const res = await request(app)
+        .post('/api/students/me/resume')
+        .set('Authorization', `Bearer ${studentToken}`)
+        .attach('resume', fakePdfBuffer, { filename: 'resume.pdf', contentType: 'application/pdf' });
+      expect(res.status).toBe(400);
+      expect(res.body.success).toBe(false);
+      expect(res.body.error.code).toBe('INVALID_FILE_TYPE');
+    });
+
+    it('should accept resume upload with authentic PDF magic bytes (%PDF)', async () => {
+      const validPdfBuffer = Buffer.from('%PDF-1.4\n%âãÏÓ\n1 0 obj\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF');
+      const res = await request(app)
+        .post('/api/students/me/resume')
+        .set('Authorization', `Bearer ${studentToken}`)
+        .attach('resume', validPdfBuffer, { filename: 'real_resume.pdf', contentType: 'application/pdf' });
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.originalFilename).toBe('real_resume.pdf');
+    });
+  });
+
+  describe('7. Route Architecture Hygiene', () => {
+    it('should return 404 for removed duplicate recruiter route /api/drives/mine', async () => {
+      const res = await request(app)
+        .get('/api/drives/mine')
+        .set('Authorization', `Bearer ${recruiterToken}`);
+      expect(res.status).toBe(404);
+    });
+  });
+
+  describe('8. Audit Trail & Status History Persistence', () => {
+    it('should persist status histories and capture accurate previous status when interview is scheduled', async () => {
+      // Find an application for recruiter drive
+      const driveId = 'd0000001-0000-0000-0000-000000000001';
+      const appsRes = await request(app)
+        .get(`/api/recruiter/drives/${driveId}/applications`)
+        .set('Authorization', `Bearer ${recruiterToken}`);
+      expect(appsRes.status).toBe(200);
+      const appRecord = appsRes.body.data.applicants[0];
+      expect(appRecord).toBeDefined();
+
+      const initialStatus = appRecord.status;
+      const scheduleRes = await request(app)
+        .post(`/api/recruiter/drives/${driveId}/rounds`)
+        .set('Authorization', `Bearer ${recruiterToken}`)
+        .send({
+          applicationId: appRecord.id,
+          roundNumber: 2,
+          roundType: 'System Design Interview',
+          scheduledAt: new Date(Date.now() + 86400000).toISOString(),
+          mode: 'ONLINE',
+          meetingUrl: 'https://meet.google.com/abc-defg-hij',
+        });
+      expect(scheduleRes.status).toBe(201);
+
+      // Verify the status history in student's application view
+      const studentAppsRes = await request(app)
+        .get('/api/students/me/applications')
+        .set('Authorization', `Bearer ${studentToken}`);
+      expect(studentAppsRes.status).toBe(200);
+
+      const targetApp = studentAppsRes.body.data.find((a: any) => a.id === appRecord.id);
+      expect(targetApp).toBeDefined();
+      expect(targetApp.history.length).toBeGreaterThan(0);
+      const latestHistory = targetApp.history[targetApp.history.length - 1];
+      expect(latestHistory.newStatus).toBe('INTERVIEW_SCHEDULED');
+      expect(latestHistory.oldStatus).toBe(initialStatus);
+    });
+  });
 });

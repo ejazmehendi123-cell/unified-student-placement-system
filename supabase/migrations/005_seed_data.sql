@@ -26,13 +26,13 @@ ON CONFLICT (name) DO NOTHING;
 -- 3. Recruiters
 INSERT INTO recruiters (id, user_id, company_id, company_name, contact_person, phone, designation, is_verified, verification_status)
 VALUES
-    ('r0000001-0000-0000-0000-000000000001', 'b2222222-2222-2222-2222-222222222222', 'c0000001-0000-0000-0000-000000000001', 'Bharat Tech Innovations', 'Priya Deshmukh', '+91 98123 45678', 'Lead University Talent Acquisition', true, 'VERIFIED')
+    ('e0000001-0000-0000-0000-000000000001', 'b2222222-2222-2222-2222-222222222222', 'c0000001-0000-0000-0000-000000000001', 'Bharat Tech Innovations', 'Priya Deshmukh', '+91 98123 45678', 'Lead University Talent Acquisition', true, 'VERIFIED')
 ON CONFLICT (id) DO UPDATE SET is_verified = true;
 
 -- 4. Demo Student Profile
 INSERT INTO students (id, user_id, roll_number, branch, department, cgpa, backlog_count, profile_status, is_placed, placement_status, gender, passing_year, address)
 VALUES
-    ('s0000001-0000-0000-0000-000000000001', 'a1111111-1111-1111-1111-111111111111', '2022CSE014', 'CSE', 'Computer Science and Engineering', 8.75, 0, 'COMPLETE', false, 'UNPLACED', 'Male', 2026, 'Hostel 7, Room 302, University Campus')
+    ('a0000001-0000-0000-0000-000000000001', 'a1111111-1111-1111-1111-111111111111', '2022CSE014', 'CSE', 'Computer Science and Engineering', 8.75, 0, 'COMPLETE', false, 'UNPLACED', 'Male', 2026, 'Hostel 7, Room 302, University Campus')
 ON CONFLICT (roll_number) DO NOTHING;
 
 -- Additional Student Profiles for batch realism
@@ -51,7 +51,7 @@ DECLARE
 BEGIN
     FOR i IN 2..35 LOOP
         stu_uid := ('a1111111-1111-1111-1111-' || LPAD(i::text, 12, '0'))::uuid;
-        stu_id := ('s0000001-0000-0000-0000-' || LPAD(i::text, 12, '0'))::uuid;
+        stu_id := ('a0000001-0000-0000-0000-' || LPAD(i::text, 12, '0'))::uuid;
         b_idx := ((i - 1) % 5) + 1;
         c_cgpa := ROUND((6.50 + (i * 0.09) % 3.45)::numeric, 2);
         b_logs := CASE WHEN i % 7 = 0 THEN 1 WHEN i % 13 = 0 THEN 2 ELSE 0 END;
@@ -71,23 +71,23 @@ END $$;
 -- 5. Student Skills, Projects, Academics for Demo Student
 INSERT INTO student_skills (student_id, skill_name, skill_level)
 VALUES
-    ('s0000001-0000-0000-0000-000000000001', 'Data Structures & Algorithms', 'Advanced'),
-    ('s0000001-0000-0000-0000-000000000001', 'TypeScript & React', 'Expert'),
-    ('s0000001-0000-0000-0000-000000000001', 'Node.js & Express', 'Advanced'),
-    ('s0000001-0000-0000-0000-000000000001', 'PostgreSQL & Database Design', 'Intermediate'),
-    ('s0000001-0000-0000-0000-000000000001', 'Docker & CI/CD', 'Intermediate')
+    ('a0000001-0000-0000-0000-000000000001', 'Data Structures & Algorithms', 'Advanced'),
+    ('a0000001-0000-0000-0000-000000000001', 'TypeScript & React', 'Expert'),
+    ('a0000001-0000-0000-0000-000000000001', 'Node.js & Express', 'Advanced'),
+    ('a0000001-0000-0000-0000-000000000001', 'PostgreSQL & Database Design', 'Intermediate'),
+    ('a0000001-0000-0000-0000-000000000001', 'Docker & CI/CD', 'Intermediate')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO student_projects (student_id, title, description, technologies, github_url)
 VALUES
-    ('s0000001-0000-0000-0000-000000000001', 'Distributed Cache Protocol', 'Built a high-throughput peer-to-peer LRU memory cache with RAFT consensus in Go and TypeScript.', ARRAY['Go', 'TypeScript', 'Raft', 'gRPC'], 'https://github.com/aaravsharma/dist-cache'),
-    ('s0000001-0000-0000-0000-000000000001', 'AI Resume Parser & Matcher', 'Developed an NLP-based parser that scores semantic similarity between student resumes and JD requirements.', ARRAY['Python', 'FastAPI', 'BERT', 'React'], 'https://github.com/aaravsharma/resume-ai')
+    ('a0000001-0000-0000-0000-000000000001', 'Distributed Cache Protocol', 'Built a high-throughput peer-to-peer LRU memory cache with RAFT consensus in Go and TypeScript.', ARRAY['Go', 'TypeScript', 'Raft', 'gRPC'], 'https://github.com/aaravsharma/dist-cache'),
+    ('a0000001-0000-0000-0000-000000000001', 'AI Resume Parser & Matcher', 'Developed an NLP-based parser that scores semantic similarity between student resumes and JD requirements.', ARRAY['Python', 'FastAPI', 'BERT', 'React'], 'https://github.com/aaravsharma/resume-ai')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO student_certifications (student_id, name, issuer, issue_date, credential_url)
 VALUES
-    ('s0000001-0000-0000-0000-000000000001', 'AWS Certified Solutions Architect - Associate', 'Amazon Web Services', '2025-08-15', 'https://aws.amazon.com/verify/demo-1234'),
-    ('s0000001-0000-0000-0000-000000000001', 'PostgreSQL Certified Professional', 'Postgres Guild', '2025-11-20', 'https://postgresguild.org/cert/aarav')
+    ('a0000001-0000-0000-0000-000000000001', 'AWS Certified Solutions Architect - Associate', 'Amazon Web Services', '2025-08-15', 'https://aws.amazon.com/verify/demo-1234'),
+    ('a0000001-0000-0000-0000-000000000001', 'PostgreSQL Certified Professional', 'Postgres Guild', '2025-11-20', 'https://postgresguild.org/cert/aarav')
 ON CONFLICT DO NOTHING;
 
 -- 6. Placement Drives across various statuses
@@ -99,7 +99,7 @@ INSERT INTO placement_drives (
     (
         'd0000001-0000-0000-0000-000000000001', 
         'c0000001-0000-0000-0000-000000000001', 
-        'r0000001-0000-0000-0000-000000000001',
+        'e0000001-0000-0000-0000-000000000001',
         'Associate Software Development Engineer (SDE-1)', 
         'Design, build, and maintain high-performance microservices, REST/GraphQL APIs, and resilient data processing pipelines in an enterprise cloud environment.',
         14.00, 18.50, 'INR', 7.50, 0,
@@ -109,7 +109,7 @@ INSERT INTO placement_drives (
     (
         'd0000002-0000-0000-0000-000000000002', 
         'c0000002-0000-0000-0000-000000000002', 
-        'r0000001-0000-0000-0000-000000000001',
+        'e0000001-0000-0000-0000-000000000001',
         'Information Security & Cryptography Analyst', 
         'Perform vulnerability assessments, penetration testing of fintech payment gateways, and implement ISO 27001 zero-trust security controls.',
         16.00, 22.00, 'INR', 8.00, 0,
@@ -119,7 +119,7 @@ INSERT INTO placement_drives (
     (
         'd0000003-0000-0000-0000-000000000003', 
         'c0000003-0000-0000-0000-000000000003', 
-        'r0000001-0000-0000-0000-000000000001',
+        'e0000001-0000-0000-0000-000000000001',
         'Embedded Systems & VLSI Firmware Engineer', 
         'Develop real-time operating system (RTOS) firmware, board bring-up, and FPGA hardware verification testbenches.',
         12.00, 15.00, 'INR', 7.00, 1,
@@ -129,7 +129,7 @@ INSERT INTO placement_drives (
     (
         'd0000004-0000-0000-0000-000000000004', 
         'c0000004-0000-0000-0000-000000000004', 
-        'r0000001-0000-0000-0000-000000000001',
+        'e0000001-0000-0000-0000-000000000001',
         'Robotics & EV Controls Engineer', 
         'Design battery thermal management algorithms, CAN bus telemetry decoders, and autonomous robotic navigation pipelines.',
         10.50, 14.00, 'INR', 7.00, 0,
@@ -139,7 +139,7 @@ INSERT INTO placement_drives (
     (
         'd0000005-0000-0000-0000-000000000005', 
         'c0000005-0000-0000-0000-000000000005', 
-        'r0000001-0000-0000-0000-000000000001',
+        'e0000001-0000-0000-0000-000000000001',
         'Smart Grid & Structural Design Engineer', 
         'Finite element structural analysis, BIM architectural modeling, and high-voltage substation automation engineering.',
         9.00, 12.00, 'INR', 6.50, 2,
@@ -167,16 +167,16 @@ ON CONFLICT DO NOTHING;
 -- 8. Seed Applications for Demo Student & Others
 INSERT INTO applications (id, student_id, drive_id, status, applied_at)
 VALUES
-    ('app00001-0000-0000-0000-000000000001', 's0000001-0000-0000-0000-000000000001', 'd0000001-0000-0000-0000-000000000001', 'INTERVIEW_SCHEDULED', NOW() - INTERVAL '3 days'),
-    ('app00002-0000-0000-0000-000000000002', 's0000001-0000-0000-0000-000000000001', 'd0000002-0000-0000-0000-000000000002', 'SUBMITTED', NOW() - INTERVAL '1 day')
+    ('aa000001-0000-0000-0000-000000000001', 'a0000001-0000-0000-0000-000000000001', 'd0000001-0000-0000-0000-000000000001', 'INTERVIEW_SCHEDULED', NOW() - INTERVAL '3 days'),
+    ('aa000002-0000-0000-0000-000000000002', 'a0000001-0000-0000-0000-000000000001', 'd0000002-0000-0000-0000-000000000002', 'SUBMITTED', NOW() - INTERVAL '1 day')
 ON CONFLICT DO NOTHING;
 
 -- 9. Interview Round for Demo Student
 INSERT INTO interview_rounds (
     id, application_id, round_number, round_type, scheduled_at, mode, venue, meeting_url, status, student_instructions
 ) VALUES (
-    'ir000001-0000-0000-0000-000000000001',
-    'app00001-0000-0000-0000-000000000001',
+    'f0000001-0000-0000-0000-000000000001',
+    'aa000001-0000-0000-0000-000000000001',
     2,
     'Technical Interview & Live Coding',
     NOW() + INTERVAL '2 days' + INTERVAL '3 hours',

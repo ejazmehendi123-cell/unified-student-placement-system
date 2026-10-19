@@ -69,7 +69,7 @@ export const StudentDashboard: React.FC = () => {
             Welcome back, {profileData?.profile?.fullName || 'Student'}
           </h1>
           <p className="text-xs text-charcoal-muted mt-0.5">
-            Roll No: <span className="font-semibold text-charcoal">{student?.rollNumber || '2022CSE014'}</span> | Department of {student?.department || 'Computer Science'} ({student?.branch || 'CSE'})
+            Roll No: <span className="font-semibold text-charcoal">{student?.rollNumber || '—'}</span> | Department: {student?.department ? `${student.department} (${student?.branch || ''})` : '—'}
           </p>
         </div>
 

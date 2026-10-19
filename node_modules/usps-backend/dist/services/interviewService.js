@@ -34,18 +34,20 @@ class InterviewService {
         };
         dataStore_1.db.interviewRounds.set(interviewId, interview);
         // Update application status to INTERVIEW_SCHEDULED
+        const oldAppStatus = app.status;
         app.status = 'INTERVIEW_SCHEDULED';
         app.updatedAt = new Date().toISOString();
         const histories = dataStore_1.db.statusHistories.get(app.id) || [];
         histories.push({
             id: (0, uuid_1.v4)(),
             applicationId: app.id,
-            oldStatus: 'SHORTLISTED',
+            oldStatus: oldAppStatus,
             newStatus: 'INTERVIEW_SCHEDULED',
             changedBy: userId,
             reason: `Scheduled ${interview.roundType}`,
             createdAt: new Date().toISOString(),
         });
+        dataStore_1.db.statusHistories.set(app.id, histories);
         await auditService_1.AuditService.logAction({
             actorUserId: userId,
             actorRole: profile?.role || 'recruiter',

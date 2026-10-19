@@ -198,7 +198,7 @@ class DataStore {
 
     // 3. Recruiters
     const demoRecruiter: Recruiter = {
-      id: 'r0000001-0000-0000-0000-000000000001',
+      id: 'e0000001-0000-0000-0000-000000000001',
       userId: 'b2222222-2222-2222-2222-222222222222',
       companyId: 'c0000001-0000-0000-0000-000000000001',
       companyName: 'Bharat Tech Innovations',
@@ -214,7 +214,7 @@ class DataStore {
 
     // 4. Demo Student
     const demoStudent: Student = {
-      id: 's0000001-0000-0000-0000-000000000001',
+      id: 'a0000001-0000-0000-0000-000000000001',
       userId: 'a1111111-1111-1111-1111-111111111111',
       rollNumber: '2022CSE014',
       branch: 'CSE',
@@ -323,7 +323,7 @@ class DataStore {
       const ln = lastNames[i % lastNames.length];
       const fullName = `${fn} ${ln}`;
       const uid = `a1111111-1111-1111-1111-${String(i).padStart(12, '0')}`;
-      const sid = `s0000001-0000-0000-0000-${String(i).padStart(12, '0')}`;
+      const sid = `a0000001-0000-0000-0000-${String(i).padStart(12, '0')}`;
       const email = `student${i}@usps.edu.in`;
       const cgpa = Number((6.80 + ((i * 0.11) % 3.0)).toFixed(2));
       const backlogs = i % 8 === 0 ? 1 : i % 17 === 0 ? 2 : 0;
@@ -498,7 +498,7 @@ class DataStore {
 
     // 7. Seed Applications
     const app1: Application = {
-      id: 'app00001-0000-0000-0000-000000000001',
+      id: 'aa000001-0000-0000-0000-000000000001',
       studentId: demoStudent.id,
       driveId: 'd0000001-0000-0000-0000-000000000001',
       status: 'INTERVIEW_SCHEDULED',
@@ -508,7 +508,7 @@ class DataStore {
     };
 
     const app2: Application = {
-      id: 'app00002-0000-0000-0000-000000000002',
+      id: 'aa000002-0000-0000-0000-000000000002',
       studentId: demoStudent.id,
       driveId: 'd0000002-0000-0000-0000-000000000002',
       status: 'SUBMITTED',
@@ -584,7 +584,7 @@ class DataStore {
 
     // 8. Interview Round for Demo Student
     const interview1: InterviewRound = {
-      id: 'ir000001-0000-0000-0000-000000000001',
+      id: 'f0000001-0000-0000-0000-000000000001',
       applicationId: app1.id,
       roundNumber: 2,
       roundType: 'Technical Interview & Live Coding',

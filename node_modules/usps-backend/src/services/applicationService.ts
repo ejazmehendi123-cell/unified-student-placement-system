@@ -110,6 +110,7 @@ export class ApplicationService {
       reason: 'Application withdrawn by student',
       createdAt: new Date().toISOString(),
     });
+    db.statusHistories.set(applicationId, histories);
 
     await AuditService.logAction({
       actorUserId: userId,
@@ -158,6 +159,7 @@ export class ApplicationService {
       reason: reason || `Status updated to ${newStatus}`,
       createdAt: new Date().toISOString(),
     });
+    db.statusHistories.set(applicationId, histories);
 
     await AuditService.logAction({
       actorUserId,
@@ -179,7 +181,7 @@ export class ApplicationService {
         userId: student.userId,
         type: notifType,
         title: `Application Update: ${drive?.companyName}`,
-        message: `Your application status for "${drive?.jobRole}" has been updated to: ${newStatus.replace('_', ' ')}.`,
+        message: `Your application status for "${drive?.jobRole}" has been updated to: ${newStatus.replaceAll('_', ' ')}.`,
         data: { applicationId, driveId: drive?.id, newStatus },
       });
     }

@@ -38,6 +38,7 @@ export class InterviewService {
     db.interviewRounds.set(interviewId, interview);
 
     // Update application status to INTERVIEW_SCHEDULED
+    const oldAppStatus = app.status;
     app.status = 'INTERVIEW_SCHEDULED';
     app.updatedAt = new Date().toISOString();
 
@@ -45,12 +46,13 @@ export class InterviewService {
     histories.push({
       id: uuidv4(),
       applicationId: app.id,
-      oldStatus: 'SHORTLISTED',
+      oldStatus: oldAppStatus,
       newStatus: 'INTERVIEW_SCHEDULED',
       changedBy: userId,
       reason: `Scheduled ${interview.roundType}`,
       createdAt: new Date().toISOString(),
     });
+    db.statusHistories.set(app.id, histories);
 
     await AuditService.logAction({
       actorUserId: userId,

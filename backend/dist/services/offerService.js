@@ -29,18 +29,20 @@ class OfferService {
         };
         dataStore_1.db.offers.set(offerId, offer);
         // Update application status
+        const oldAppStatus = app.status;
         app.status = 'OFFERED';
         app.updatedAt = new Date().toISOString();
         const histories = dataStore_1.db.statusHistories.get(app.id) || [];
         histories.push({
             id: (0, uuid_1.v4)(),
             applicationId: app.id,
-            oldStatus: 'INTERVIEW_SCHEDULED',
+            oldStatus: oldAppStatus,
             newStatus: 'OFFERED',
             changedBy: userId,
             reason: `Offer extended: ${offer.packageOffered} ${offer.currency}`,
             createdAt: new Date().toISOString(),
         });
+        dataStore_1.db.statusHistories.set(app.id, histories);
         await auditService_1.AuditService.logAction({
             actorUserId: userId,
             actorRole: profile?.role || 'recruiter',
@@ -136,6 +138,7 @@ class OfferService {
             reason: 'Offer accepted by student. Placed status confirmed.',
             createdAt: new Date().toISOString(),
         });
+        dataStore_1.db.statusHistories.set(app.id, histories);
         // Audit Log
         await auditService_1.AuditService.logAction({
             actorUserId: userId,

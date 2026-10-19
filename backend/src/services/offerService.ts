@@ -33,6 +33,7 @@ export class OfferService {
     db.offers.set(offerId, offer);
 
     // Update application status
+    const oldAppStatus = app.status;
     app.status = 'OFFERED';
     app.updatedAt = new Date().toISOString();
 
@@ -40,12 +41,13 @@ export class OfferService {
     histories.push({
       id: uuidv4(),
       applicationId: app.id,
-      oldStatus: 'INTERVIEW_SCHEDULED',
+      oldStatus: oldAppStatus,
       newStatus: 'OFFERED',
       changedBy: userId,
       reason: `Offer extended: ${offer.packageOffered} ${offer.currency}`,
       createdAt: new Date().toISOString(),
     });
+    db.statusHistories.set(app.id, histories);
 
     await AuditService.logAction({
       actorUserId: userId,
@@ -156,6 +158,7 @@ export class OfferService {
       reason: 'Offer accepted by student. Placed status confirmed.',
       createdAt: new Date().toISOString(),
     });
+    db.statusHistories.set(app.id, histories);
 
     // Audit Log
     await AuditService.logAction({

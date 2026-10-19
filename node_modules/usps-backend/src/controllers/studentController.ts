@@ -114,9 +114,32 @@ export class StudentController {
   public static async uploadResume(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
-      const filename = file?.originalname || req.body.filename || 'Resume_2026.pdf';
-      const size = file?.size || 240000;
-      const path = file?.path || `resumes/${filename}`;
+      if (!file) {
+        res.status(400).json({
+          success: false,
+          error: { code: 'BAD_REQUEST', message: 'No resume file uploaded. Please upload a valid PDF file.' },
+        });
+        return;
+      }
+
+      // Magic byte verification for PDF (files must start with '%PDF')
+      if (file.buffer) {
+        const isPdfMagicByte = file.buffer.length >= 4 && file.buffer.subarray(0, 4).toString('ascii') === '%PDF';
+        if (!isPdfMagicByte) {
+          res.status(400).json({
+            success: false,
+            error: {
+              code: 'INVALID_FILE_TYPE',
+              message: 'Invalid file format. File magic bytes do not match PDF specification (%PDF).',
+            },
+          });
+          return;
+        }
+      }
+
+      const filename = file.originalname;
+      const size = file.size;
+      const path = file.path || `resumes/${filename}`;
 
       const result = await StudentService.uploadResumeMetadata(req.user!.id, filename, size, path);
       res.status(200).json({ success: true, data: result });

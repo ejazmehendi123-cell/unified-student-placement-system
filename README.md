@@ -58,7 +58,7 @@
 npm install
 npm run dev
 ```
-
+  
 Both backend (port 5000) and frontend (port 5173) start concurrently.
 
 ### Option B — Two Terminals
