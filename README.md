@@ -66,7 +66,7 @@ Both backend (port 5000) and frontend (port 5173) start concurrently.
 **Terminal 1 — Backend API Server**
 
 ```powershell
-cd "c:\Projects\The USPS\backend"
+cd backend
 npm install
 npm run dev
 ```
@@ -81,7 +81,7 @@ Expected output:
 **Terminal 2 — Frontend Dev Server**
 
 ```powershell
-cd "c:\Projects\The USPS\frontend"
+cd frontend
 npm install
 npm run dev
 ```
