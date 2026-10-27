@@ -38,7 +38,7 @@
 | Single-Offer Policy violations | Atomic enforcement with TPO override mechanism |
 | Missing audit trails | Immutable audit ledger with actor, IP, diff, and timestamp |
 | Academic data silos | Integrated SIS (Student Information System) batch sync |
-| Leadership reporting gaps | Automated department and company analytics dashboards |
+| Leadership reporting gaps | company analytics dashboards |
 
 ---
 
