@@ -151,7 +151,6 @@ Browser  -->  Vite Dev Proxy  -->  Express API
                                    |
                                    --> authenticate() middleware
                                    --> RBAC requireRole() check
-                                   --> Zod schema validation
                                    --> Service Layer (business logic)
                                    --> DataStore / Supabase (data)
                                    --> AuditService.logAction()
