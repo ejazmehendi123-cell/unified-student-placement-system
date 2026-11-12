@@ -202,7 +202,7 @@ Browser  -->  Vite Dev Proxy  -->  Express API
 | **Eligibility Overrides** | Grant administrative override for a specific student + drive combination |
 | **Single-Offer Override** | Grant policy exception allowing a placed student to pursue additional offers |
 | **SIS Sync** | Execute batch Student Information System sync (mock integration with registrar API) |
-| **Audit Log** | Immutable ledger: actor, role, action, entity, IP, timestamp, data diff |
+| **Audit Log** | Immutable ledger: actor, role, action, entity, IP, timestamp |
 | **User Management** | View all system users, activate or deactivate accounts |
 | **Reports** | Full placement analytics dashboard |
 
