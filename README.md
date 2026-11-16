@@ -397,7 +397,7 @@ Backend reads from `backend/.env` (already pre-configured for development).
 | `SUPABASE_SERVICE_ROLE_KEY` | — | Service role key (production only) |
 | `STORAGE_DIR` | `./uploads` | Local file upload directory |
 
-> In development/demo mode, the system uses an **in-memory DataStore**. No actual Supabase connection is required.
+> In development/demo mode the system uses an **in-memory DataStore**. No actual Supabase connection is required.
 
 ---
 
