@@ -95,7 +95,7 @@ Expected output:
 
 **→ http://localhost:5173**
 
-> **Tip:** The Login page has **one-click demo role cards** — simply click a card to auto-fill credentials.
+> **Tip:** The Login page has **one-click demo role cards** — simply click card to auto-fill credentials.
 
 ### 👥 Demo Login Credentials
 
